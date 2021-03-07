@@ -12,16 +12,23 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import PaginaDeUsuarios from './PaginaDeUsuarios';
+import PaginadoProduto from './PaginadoProduto';
+import ServicoDeAutenticacao from '../servicos/ServicoDeAutenticacao'; 
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 
 const PaginaInicial = () => {
-   
+    
     const classes = useStyles()
     const [loginOpen, setLoginOpen] = useState(false);
     const [signupOpen, setSignupOpen] = useState(false);
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginSenha, setLoginSenha] = useState('');
+    const servicoDeAutenticacao= new ServicoDeAutenticacao();
+
 
     const handleClickOpen = () => {
       setLoginOpen(true);
@@ -33,24 +40,49 @@ const PaginaInicial = () => {
 
     const handleSignupClose = () => {
         setSignupOpen(false);
-    }
+    };
     
     const handlesignupOpen = () => {
         setSignupOpen(true);
+    };
+
+
+    const handleLogin = ()=> {
+        servicoDeAutenticacao.autenticarUsuario({email: loginEmail, password:loginSenha})
+        setLoginOpen(false)
     }
+
+    const handleLoginEmailChange = (value) => {
+       
+        setLoginEmail(value)
+        
+    }
+
+    const handleLoginSenhaChange = (value) => {
+        console.log('opa')
+        setLoginSenha(value)
+       
+    }
+
+
+
 
     return (
         <div>
+            {/* <PaginaDeUsuarios/> */}
+            {/* <PaginadoProduto/> */}
             <div>
                 <Dialog open={loginOpen} onClose={handleLoginClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">LOGIN</DialogTitle>
                 <DialogContent>
+               
                     <TextField
                         autoFocus
                         margin="dense"
                         id="email"
                         label="Email"
                         type="email"
+                        onChange={(event) => handleLoginEmailChange(event.target.value)}
                         fullWidth
                     />
                     <TextField
@@ -58,6 +90,7 @@ const PaginaInicial = () => {
                         id="senha"
                         label="Senha"
                         type="password"
+                        onChange={(event) => handleLoginSenhaChange(event.target.value)}
                         fullWidth
                     />
                 </DialogContent>
@@ -65,7 +98,7 @@ const PaginaInicial = () => {
                     <Button onClick={handleLoginClose} color="primary">
                     Cancelar
                     </Button>
-                    <Button onClick={handleLoginClose} color="primary">
+                    <Button onClick={handleLogin} color="primary">
                     Login
                     </Button>
                 </DialogActions>
