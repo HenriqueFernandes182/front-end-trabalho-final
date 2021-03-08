@@ -1,20 +1,17 @@
 
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import NavBar from './NavBar';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import PaginaDeUsuarios from './PaginaDeUsuarios';
-import PaginadoProduto from './PaginadoProduto';
 import ServicoDeAutenticacao from '../servicos/ServicoDeAutenticacao'; 
+import AuthContext from '../context/AuthContext';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 
@@ -23,6 +20,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const PaginaInicial = () => {
     
     const classes = useStyles()
+    const context = useContext(AuthContext)
     const [loginOpen, setLoginOpen] = useState(false);
     const [signupOpen, setSignupOpen] = useState(false);
     const [loginEmail, setLoginEmail] = useState('');
@@ -49,6 +47,12 @@ const PaginaInicial = () => {
 
     const handleLogin = ()=> {
         servicoDeAutenticacao.autenticarUsuario({email: loginEmail, password:loginSenha})
+        .then((res)=> {
+            if(res.token){
+                context.setIsAuthenticated(true)
+                context.setAuthToken(res.token)
+            } 
+        })
         setLoginOpen(false)
     }
 
@@ -59,7 +63,6 @@ const PaginaInicial = () => {
     }
 
     const handleLoginSenhaChange = (value) => {
-        console.log('opa')
         setLoginSenha(value)
        
     }

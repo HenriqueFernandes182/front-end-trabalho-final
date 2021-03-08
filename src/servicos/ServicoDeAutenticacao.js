@@ -10,14 +10,12 @@ export default class ServicoDeAutenticacao {
         const password = usuario.password
 
         return new Promise((resolve, reject) => {
-            this.clienteApi.post('http://localhost:3333/users', { email, password})
+            this.clienteApi.post('http://localhost:3333/login', { email, password})
                 .then(response => {
-                    console.log(email, password)
-                    console.log('success', response.data)
                     resolve(response.data)
                 })
                 .catch(err => {
-                    console.log('errror', err)
+                    console.log('errror', err) 
                     reject(err)
                 })
         })
