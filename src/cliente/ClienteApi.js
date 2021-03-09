@@ -3,7 +3,7 @@ let axios = require('axios')
 export default class ClienteApi {
 
     constructor(url) {
-        this.url = 'http://localhost:3333';
+        this.url = 'https://conclusion-work-backend.herokuapp.com';
         this.axios = axios.create({
             baseUrl: process.env.REACT_APP_API_URL
         });

@@ -2,7 +2,7 @@ import ClienteApi from '../cliente/ClienteApi';
 
 export default class ServicoDeAutenticacao {
     constructor(clienteApi) {
-        this.clienteApi = clienteApi || new ClienteApi('http://localhost:3333/')
+        this.clienteApi = clienteApi || new ClienteApi('https://conclusion-work-backend.herokuapp.com/')
     }
 
    autenticarUsuario(usuario) {
@@ -10,7 +10,7 @@ export default class ServicoDeAutenticacao {
         const password = usuario.password
 
         return new Promise((resolve, reject) => {
-            this.clienteApi.post('http://localhost:3333/login', { email, password})
+            this.clienteApi.post('https://conclusion-work-backend.herokuapp.com/login', { email, password})
                 .then(response => {
                     
                     window.localStorage.setItem('token',response.data.token); 
