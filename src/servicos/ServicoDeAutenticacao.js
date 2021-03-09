@@ -12,10 +12,12 @@ export default class ServicoDeAutenticacao {
         return new Promise((resolve, reject) => {
             this.clienteApi.post('http://localhost:3333/login', { email, password})
                 .then(response => {
+                    
+                    window.localStorage.setItem('token',response.data.token); 
                     resolve(response.data)
                 })
                 .catch(err => {
-                    console.log('errror', err) 
+                    console.log('errror', err)
                     reject(err)
                 })
         })

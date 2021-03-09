@@ -10,9 +10,7 @@ export default class ClienteApi {
     }
 
     get(endpoint) {
-        return this.axios({
-            url: endpoint,
-        })
+        return this.axios({url: endpoint, headers: {'x-access-token': window.localStorage.getItem('token')}})
     }
 
     post(url, data) {
@@ -28,7 +26,8 @@ export default class ClienteApi {
         return this.axios({
             method: 'put',
             url,
-            data
+            data,
+            headers: {'x-access-token': window.localStorage.getItem('token')}
         })
     }
 

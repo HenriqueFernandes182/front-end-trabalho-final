@@ -50,7 +50,6 @@ const PaginaInicial = () => {
         .then((res)=> {
             if(res.token){
                 context.setIsAuthenticated(true)
-                context.setAuthToken(res.token)
             } 
         })
         setLoginOpen(false)

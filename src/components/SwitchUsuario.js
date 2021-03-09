@@ -6,6 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import ServicoDeUsuarios from '../servicos/ServicoDeUsuarios';
 
 
 const IOSSwitch = withStyles((theme) => ({
@@ -62,21 +63,23 @@ const IOSSwitch = withStyles((theme) => ({
 });
 
 
-export default function SwitchUsuario() {
-  const [ativo, setAtivo] = useState(true)
+export default function SwitchUsuario({ ativo, user}) {
+  const [ativo2, setAtivo2] = useState(ativo)
+  const servicoDeUsuarios = new ServicoDeUsuarios()
 
-
-  const handleChange = () => {
-    setAtivo(!ativo);
-  };
-
+ 
+  const handleChange = ()=> {
+    setAtivo2(!ativo2)
+    console.log(user)
+    servicoDeUsuarios.putUsuario({name: user.name, email: user.email, ativar_usuario: !user.ativar_usuario}, user.uid)
+  }
 
   return (
     <FormGroup>
       
       <FormControlLabel
-        control={<IOSSwitch checked={ativo} onChange={handleChange} name="checkedB" />}
-        label={ativo ? 'Ativo' : 'Desativado'}
+        control={<IOSSwitch checked={ativo2} onChange={handleChange} name="checkedB" />}
+        label={ativo2 ? 'Ativo' : 'Desativado'}
       />
      
     </FormGroup>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,22 +8,36 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import SwitchUsuario from './SwitchUsuario';
+import ServicoDeUsuarios from '../servicos/ServicoDeUsuarios';
 
 
-function createData(nome, email, status) {
-  return { nome, email, status};
-}
-
-const rows = [
-  createData('Henrique Fernandes', 'hicky_hc@hotmail.com', true),
-  createData('Nicolas dos Santos', 'nicolas182@icloud.com', true),
-  createData('Henrique Fernandes', 'hicky_hc@hotmail.com', true),
-  createData('Henrique Fernandes', 'hicky_hc@hotmail.com', true)
-];
 
 
 export default function TabelaDeUsuarios() {
     const classes = useStyles();
+    const servicoDeUsuarios = new ServicoDeUsuarios()
+
+    const [usuarios, setUsuarios] = useState([])
+
+    const [ativo, setAtivo] = useState(true)
+
+
+    const handleAtivo = () => {
+      setAtivo(!ativo);
+    };
+
+    useEffect(()=> {
+      servicoDeUsuarios.getUsuarios()
+      .then((res) => {
+        setUsuarios(res.users)
+      
+      }).catch((err)=> {
+        console.log('error', err)
+        
+      })
+    }, [])
+    
+
 
   return (
     <TableContainer className={classes.container} component={Paper}>
@@ -36,15 +50,13 @@ export default function TabelaDeUsuarios() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.nome}>
+          {usuarios.map((usuario) => (
+            <TableRow key={usuario.uid}>
               <TableCell component="th" scope="row" className={classes.text}>
-                {row.nome}
+                {usuario.name}
               </TableCell>
-              <TableCell  className={classes.text}>{row.email}</TableCell>
-        
-            
-              <TableCell className={classes.text}><SwitchUsuario/></TableCell>
+              <TableCell  className={classes.text}>{usuario.email}</TableCell>
+              <TableCell className={classes.text}><SwitchUsuario ativo={usuario.ativar_usuario} user={usuario}/></TableCell>
             </TableRow>
           ))}
         </TableBody>

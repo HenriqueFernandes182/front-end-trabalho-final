@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AuthContext from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 
 
@@ -23,11 +24,21 @@ const NavBar = ({handleClickOpenLogin, handleClickOpenSignup})=> {
           <Typography variant="h6" className={classes.title}>
               Controle de Estoque
           </Typography>
-        {!context.isAuthenticated && 
+        {  !window.localStorage.getItem('token') && 
         <div>
           <Button className={classes.login} color="inherit" onClick={handleClickOpenLogin} >Login</Button>
           <Button className={classes.login} color="inherit" onClick={handleClickOpenSignup}>Sign up</Button>
         </div> 
+        }
+
+        {
+          window.localStorage.getItem('token') &&
+          <div>
+          <Link to="/produtos"><Button className={classes.login} color="inherit">Produtos</Button></Link>
+          <Link to="/usuarios"><Button className={classes.login} color="inherit">Usuarios</Button></Link>
+          <Link to="/"><Button onClick={()=> window.localStorage.removeItem('token')} className={classes.login} color="inherit">Log Out</Button></Link>
+          </div>
+
         }
         </Toolbar>
     </AppBar>
@@ -52,7 +63,9 @@ const useStyles = makeStyles((theme) => ({
     },
     login: {
       fontSize: '25px',
-      color: 'black'
+      color: 'black',
+      textDecoration: 'none !important',
+      border: '0px'
     },
     navBar: {
       backgroundColor:'white',

@@ -1,4 +1,5 @@
 import ClienteApi from '../cliente/ClienteApi';
+import Axios from 'axios'
 
 export default class ServicoDeUsuario {
     constructor(clienteApi) {
@@ -7,10 +8,11 @@ export default class ServicoDeUsuario {
 
     getUsuarios() {
         return new Promise( (resolve, reject) => {
-            this.clienteApi.get(`users`)
+            this.clienteApi.get(`http://localhost:3333/users`)
                 .then( response => {
                     resolve(response.data)
-                }).catch( err => reject(err))
+                }).catch( err => {
+                    reject(err)})
         })
     }
 
@@ -22,6 +24,21 @@ export default class ServicoDeUsuario {
                 }).catch(err => reject(err))
         })
     }
+
+     putUsuario(putBody, id) {
+        return new Promise( (resolve, reject) => {
+            this.clienteApi.put(`http://localhost:3333/users/${id}`, putBody)
+                .then(response => {
+                    if(response === 'error') reject("Um erro aconteceu")
+                    else resolve(response)
+                })
+                .catch(err => {
+                    reject(err)
+                })
+        })
+    }
+
+    
 
     // getProjects() {
     //     return new Promise((resolve, reject) => {
