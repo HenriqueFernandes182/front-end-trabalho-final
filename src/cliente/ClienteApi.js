@@ -5,8 +5,8 @@ export default class ClienteApi {
     constructor(url) {
         this.url = 'http://localhost:3333';
         this.axios = axios.create({
-            baseUrl: url
-        })
+            baseUrl: process.env.REACT_APP_API_URL
+        });
     }
 
     get(endpoint) {
