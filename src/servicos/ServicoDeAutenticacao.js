@@ -10,7 +10,7 @@ export default class ServicoDeAutenticacao {
         const password = usuario.password
 
         return new Promise((resolve, reject) => {
-            this.clienteApi.post('https://conclusion-work-backend.herokuapp.com/login/', { email, password})
+            this.clienteApi.post('https://conclusion-work-backend.herokuapp.com/login', { email, password})
                 .then(response => {
                     resolve(response.data)
                 })

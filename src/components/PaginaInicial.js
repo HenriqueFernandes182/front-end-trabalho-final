@@ -1,4 +1,3 @@
-
 import React, {useState, useContext} from 'react';
 import NavBar from './NavBar';
 import { makeStyles } from '@material-ui/core/styles';
@@ -59,7 +58,7 @@ const PaginaInicial = () => {
                 context.setIsSuccessOpen(true)
             
                 //MUDAR
-                window.location.replace("http://localhost:3000/produtos")
+                window.location.replace("https://conclusion-work-backend.herokuapp.com/produtos")
             } 
         }).catch((e)=> {
             console.log(e)
@@ -92,11 +91,11 @@ const PaginaInicial = () => {
                     context.setIsSuccessOpen(true)
                 
             
-                    window.location.replace("http://localhost:3000/produtos")
+                    window.location.replace("https://conclusion-work-backend.herokuapp.com/produtos")
                 
             }).catch((e)=> {
                 console.log(e)
-                context.setErrorMessage('Login Falhou')
+                context.setErrorMessage('Signup Falhou')
                 context.setIsErrorOpen(true)
     
             })
