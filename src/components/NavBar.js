@@ -16,6 +16,7 @@ const NavBar = ({handleClickOpenLogin, handleClickOpenSignup})=> {
     const classes = useStyles();
     const context = useContext(AuthContext)
 
+
     return (
     <div className={classes.root}>
         <AppBar position="static" className={classes.navBar}>

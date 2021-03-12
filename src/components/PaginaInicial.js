@@ -2,9 +2,6 @@
 import React, {useState, useContext} from 'react';
 import NavBar from './NavBar';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -25,6 +22,13 @@ const PaginaInicial = () => {
     const [signupOpen, setSignupOpen] = useState(false);
     const [loginEmail, setLoginEmail] = useState('');
     const [loginSenha, setLoginSenha] = useState('');
+
+    const [signUpNome, setSignUpNome] = useState('');
+    const [signUpEmail, setSignUpEmail] = useState('');
+    const [signUpSenha, setSignUpSenha] = useState('');
+    const [signUpSenhaConf, setSignUpSenhaConf] = useState('');
+
+
     const servicoDeAutenticacao= new ServicoDeAutenticacao();
 
 
@@ -49,8 +53,19 @@ const PaginaInicial = () => {
         servicoDeAutenticacao.autenticarUsuario({email: loginEmail, password:loginSenha})
         .then((res)=> {
             if(res.token){
+                window.localStorage.setItem('token',res.token);
                 context.setIsAuthenticated(true)
+                context.setSuccessMessage('Login Efetuado Com Successo!')
+                context.setIsSuccessOpen(true)
+            
+                //MUDAR
+                window.location.replace("http://localhost:3000/produtos")
             } 
+        }).catch((e)=> {
+            console.log(e)
+            context.setErrorMessage('Login Falhou')
+            context.setIsErrorOpen(true)
+
         })
         setLoginOpen(false)
     }
@@ -65,6 +80,37 @@ const PaginaInicial = () => {
         setLoginSenha(value)
        
     }
+
+    const handleSignUp = () => {
+        if(signUpSenha === signUpSenhaConf){
+            servicoDeAutenticacao.criarUsuario({email: signUpEmail, password:signUpSenha, name: signUpNome})
+            .then((res)=> {
+                
+                    window.localStorage.setItem('token',res.token);
+                    context.setIsAuthenticated(true)
+                    context.setSuccessMessage('Signup Efetuado Com Successo!')
+                    context.setIsSuccessOpen(true)
+                
+            
+                    window.location.replace("http://localhost:3000/produtos")
+                
+            }).catch((e)=> {
+                console.log(e)
+                context.setErrorMessage('Login Falhou')
+                context.setIsErrorOpen(true)
+    
+            })
+            setSignupOpen(false)
+        } else {
+            
+            context.setErrorMessage('As Senhas devem ser iguais')
+            context.setIsErrorOpen(true)
+        }
+
+       
+        
+    }
+    
 
 
 
@@ -117,6 +163,7 @@ const PaginaInicial = () => {
                         id="nome"
                         label="Nome"
                         type="text"
+                        onChange={(event) => setSignUpNome(event.target.value)}
                         fullWidth
                     />
                     
@@ -126,18 +173,21 @@ const PaginaInicial = () => {
                         label="Email"
                         type="email-signup"
                         fullWidth
+                        onChange={(event) => setSignUpEmail(event.target.value)}
                     />
                     <TextField
                         margin="dense"
                         id="senha"
                         label="Senha"
                         type="password"
+                        onChange={(event) => setSignUpSenha(event.target.value)}
                         fullWidth
                     />
                     <TextField
                         margin="dense"
                         id="confirmar-senha"
                         label="Confirmar Senha"
+                        onChange={(event) => setSignUpSenhaConf(event.target.value)}
                         type="password"
                         fullWidth
                     />
@@ -146,20 +196,17 @@ const PaginaInicial = () => {
                     <Button onClick={handleSignupClose} color="primary">
                     Cancelar
                     </Button>
-                    <Button onClick={handleSignupClose} color="primary">
+                    <Button onClick={handleSignUp} color="primary">
                     SignUp
                     </Button>
                 </DialogActions>
                 </Dialog>
             </div>
-        
-        
-
 
         <div className={classes.paginaInicial}>
             <NavBar handleClickOpenLogin={handleClickOpen} handleClickOpenSignup={handlesignupOpen}/>
             <div className={classes.descricao}>
-                O aplicativo que ajuda sua 
+                Essa aplicação vai ajudar a manter seu estoque organizado e limpo! 
             </div>
         </div>
         </div>

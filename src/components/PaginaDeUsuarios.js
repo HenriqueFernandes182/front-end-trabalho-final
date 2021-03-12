@@ -1,18 +1,26 @@
 import React from 'react';
 import TabelaDeUsuarios from './TabelaDeUsuarios';
 import NavBar from './NavBar';
+import PaginaInicial from './PaginaInicial';
+
 import { makeStyles, Typography } from '@material-ui/core';
+
 
 export default function PaginaDeUsuario() {
     const classes = useStyles();
     return (
         <div>
+        {!window.localStorage.getItem('token') && <PaginaInicial/>}
+        {window.localStorage.getItem('token') && 
+            <div>
             <NavBar />
             <Typography variant="h3" className={classes.header}>Usuários</Typography>
             <div className={classes.tabela}>
                 <TabelaDeUsuarios />
             </div>
-        </div>
+    </div>}
+    </div>
+        
     )
 }
 const useStyles = makeStyles({

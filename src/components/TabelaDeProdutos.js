@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { makeStyles, Button } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,31 +7,22 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import ServicoDeProdutos from '../servicos/ServicoDeProdutos';
 import ServicoDeUsuarios from '../servicos/ServicoDeUsuarios';
 import ClienteApi from '../cliente/ClienteApi';
 
 
-function createData(produto, marca, quantidade) {
-  return { produto, marca, quantidade};
-}
-
-const rows = [
-  createData('OMO', 'Sabao em po', 4),
-  createData('OMO', 'Sabao em po', 4),
-  createData('OMO', 'Sabao em po', 4),
-  createData('OMO', 'Sabao em po', 4),
-  
-];
 
 
-export default function TabelaDeProdutos({handleOpen}) {
+export default function TabelaDeProdutos({handleOpen, produtosProp}) {
     const classes = useStyles();
     
-    // const servicoDeUsuarios = new ServicoDeUsuarios()
+    const [produtos, setProdutos] = useState([])
 
-    // servicoDeUsuarios.getUsuarios()
-    // servicoDeUsuarios.getUsuario('7d386be2-de5f-4654-b2f8-585a129cfcc1')
-
+    useEffect(()=> {
+      setProdutos(produtosProp)
+    }, [produtosProp])
+    
   return (
     <TableContainer className={classes.container} component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -44,16 +35,16 @@ export default function TabelaDeProdutos({handleOpen}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.nome}>
+          {produtos.map((produto, index) => (
+            <TableRow key={produto.uid}>
               <TableCell component="th" scope="row" className={classes.text}>
-                {row.produto}
+                {produto.name}
               </TableCell>
-              <TableCell  className={classes.text}>{row.marca}</TableCell>
+              <TableCell  className={classes.text}>{produto.marcas.name}</TableCell>
         
-            
-              <TableCell className={classes.text}>{row.quantidade}</TableCell>
-              <TableCell className={classes.text}><Button onClick={()=> handleOpen(true)}>Editar</Button> <Button>Deletar</Button></TableCell>
+
+              <TableCell className={classes.text}>{produto.quantidade}</TableCell>
+              <TableCell className={classes.text}><Button onClick={()=> handleOpen(true, produto, index)}>Editar</Button> <Button>Deletar</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
