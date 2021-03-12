@@ -32,10 +32,10 @@ export default class ServicoDeProdutos {
     postProduto(putBody) {
         const name = putBody.name
         const quantidade = putBody.quantidade
-        const marca_nome = putBody.marca_nome
+        const marca_name = putBody.marca_name
 
         return new Promise( (resolve, reject) => {
-            this.clienteApi.post(`https://conclusion-work-backend.herokuapp.com/produtos/`, {name, quantidade, marca_nome})
+            this.clienteApi.post(`https://conclusion-work-backend.herokuapp.com/produtos/`, {name, quantidade, marca_name})
                 .then(response => {
                     if(response === 'error') reject("Um erro aconteceu")
                     else resolve(response)
