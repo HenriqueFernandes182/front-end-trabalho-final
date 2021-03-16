@@ -92,7 +92,7 @@ const PaginaInicial = () => {
                 
             
                     // window.location.replace("https://react-trabalho-final.herokuapp.com/produtos")
-                    window.location.replace("http://localhost:3000/produtos")
+                    window.location.replace("https://react-trabalho-final.herokuapp.com/produtos")
                 
             }).catch((e)=> {
                 console.log(e)
