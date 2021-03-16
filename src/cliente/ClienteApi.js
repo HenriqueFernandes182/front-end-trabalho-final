@@ -21,6 +21,15 @@ export default class ClienteApi {
         })
 
     }
+
+    delete(url, data) {
+        return this.axios({
+            method: 'delete',
+            url,
+            data
+        })
+
+    }
     
     put(url, data) {
         return this.axios({

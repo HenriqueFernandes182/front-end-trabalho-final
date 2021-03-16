@@ -1,14 +1,14 @@
 import ClienteApi from '../cliente/ClienteApi';
 import Axios from 'axios';
 
-export default class ServicoDeProdutos {
+export default class ServicoDeMarcas {
     constructor(clienteApi) {
         this.clienteApi = clienteApi || new ClienteApi('https://conclusion-work-backend.herokuapp.com')
     }
 
-    getProdutos() {
+    getMarcas() {
         return new Promise( (resolve, reject) => {
-            this.clienteApi.get(`https://conclusion-work-backend.herokuapp.com/produtos`)
+            this.clienteApi.get(`https://conclusion-work-backend.herokuapp.com/marcas`)
                 .then( response => {
                     resolve(response.data)
                 }).catch( err => {
@@ -16,9 +16,9 @@ export default class ServicoDeProdutos {
         })
     }
 
-    putProduto(putBody, id) {
+    putMarcas(putBody, id) {
         return new Promise( (resolve, reject) => {
-            this.clienteApi.put(`https://conclusion-work-backend.herokuapp.com/produtos/${id}`, putBody)
+            this.clienteApi.put(`https://conclusion-work-backend.herokuapp.com/marcas/${id}`, putBody)
                 .then(response => {
                     if(response === 'error') reject("Um erro aconteceu")
                     else resolve(response)
@@ -29,26 +29,10 @@ export default class ServicoDeProdutos {
         })
     }
 
-    deleteProduto(id) {
-        return new Promise( (resolve, reject) => {
-            this.clienteApi.delete(`https://conclusion-work-backend.herokuapp.com/produtos/${id}`, id)
-                .then(response => {
-                    if(response === 'error') reject("Um erro aconteceu")
-                    else resolve(response)
-                })
-                .catch(err => {
-                    reject(err)
-                })
-        })
-    }
-
-    postProduto(putBody) {
+    postMarcas(putBody) {
         const name = putBody.name
-        const quantidade = putBody.quantidade
-        const marca_uid = putBody.marca_uid
-
         return new Promise( (resolve, reject) => {
-            this.clienteApi.post(`https://conclusion-work-backend.herokuapp.com/produtos/`, {name, quantidade, marca_uid})
+            this.clienteApi.post(`https://conclusion-work-backend.herokuapp.com/marcas/`, {name})
                 .then(response => {
                     if(response === 'error') reject("Um erro aconteceu")
                     else resolve(response)

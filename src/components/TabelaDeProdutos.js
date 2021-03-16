@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { makeStyles, Button } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import ServicoDeProdutos from '../servicos/ServicoDeProdutos';
 import ServicoDeUsuarios from '../servicos/ServicoDeUsuarios';
 import ClienteApi from '../cliente/ClienteApi';
+import AuthContext from '../context/AuthContext';
 
 
 
@@ -18,11 +19,25 @@ export default function TabelaDeProdutos({handleOpen, produtosProp}) {
     const classes = useStyles();
     
     const [produtos, setProdutos] = useState([])
+    const servicoDeProdutos = new ServicoDeProdutos()
+    const context = useContext(AuthContext)
+
+    const handleDelete = (id, index)=> {
+      servicoDeProdutos.deleteProduto(id)
+      .then(()=> {
+        context.setSuccessMessage('Produto deletado com sucesso')
+        
+        context.setIsSuccessOpen(true)
+      }).catch(err=> {
+        context.setErrorMessage('Produto deletado com sucesso')
+        context.setIsErrorOpen(true)
+      })
+    }
 
     useEffect(()=> {
       setProdutos(produtosProp)
-    }, [produtosProp])
-    
+  }, [produtosProp])
+  
   return (
     <TableContainer className={classes.container} component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -44,7 +59,7 @@ export default function TabelaDeProdutos({handleOpen, produtosProp}) {
         
 
               <TableCell className={classes.text}>{produto.quantidade}</TableCell>
-              <TableCell className={classes.text}><Button onClick={()=> handleOpen(true, produto, index)}>Editar</Button> <Button>Deletar</Button></TableCell>
+              <TableCell className={classes.text}><Button onClick={()=> handleOpen(true, produto, index)}>Editar</Button> <Button onClick={()=>handleDelete(produto.uid, index)}>Deletar</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>

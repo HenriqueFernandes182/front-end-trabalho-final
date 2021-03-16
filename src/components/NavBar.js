@@ -36,6 +36,7 @@ const NavBar = ({handleClickOpenLogin, handleClickOpenSignup})=> {
           window.localStorage.getItem('token') &&
           <div>
           <Link to="/produtos"><Button className={classes.login} color="inherit">Produtos</Button></Link>
+          <Link to="/marcas"><Button className={classes.login} color="inherit">Marcas</Button></Link>       
           <Link to="/usuarios"><Button className={classes.login} color="inherit">Usuarios</Button></Link>
           <Link to="/"><Button onClick={()=> window.localStorage.removeItem('token')} className={classes.login} color="inherit">Log Out</Button></Link>
           </div>

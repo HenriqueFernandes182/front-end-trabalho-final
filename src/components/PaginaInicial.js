@@ -58,7 +58,7 @@ const PaginaInicial = () => {
                 context.setIsSuccessOpen(true)
             
                 //MUDAR
-                window.location.replace("https://conclusion-work-backend.herokuapp.com/produtos")
+                window.location.replace("https://react-trabalho-final.herokuapp.com/produtos")
             } 
         }).catch((e)=> {
             console.log(e)
@@ -91,7 +91,8 @@ const PaginaInicial = () => {
                     context.setIsSuccessOpen(true)
                 
             
-                    window.location.replace("https://conclusion-work-backend.herokuapp.com/produtos")
+                    // window.location.replace("https://react-trabalho-final.herokuapp.com/produtos")
+                    window.location.replace("http://localhost:3000/produtos")
                 
             }).catch((e)=> {
                 console.log(e)
@@ -224,8 +225,9 @@ const PaginaInicial = () => {
     descricao: {
         color:'white',
         fontSize: '90px',
-        paddingTop: '400px',
+        paddingTop: '150px',
         textAlign: 'start',
+        width:'40%',
         paddingLeft:'30px'
     }  
   }));

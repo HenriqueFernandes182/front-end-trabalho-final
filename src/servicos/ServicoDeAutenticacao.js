@@ -12,6 +12,7 @@ export default class ServicoDeAutenticacao {
         return new Promise((resolve, reject) => {
             this.clienteApi.post('https://conclusion-work-backend.herokuapp.com/login', { email, password})
                 .then(response => {
+                    console.log(response)
                     resolve(response.data)
                 })
                 .catch(err => {

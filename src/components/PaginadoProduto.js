@@ -5,6 +5,12 @@ import NavBar from './NavBar';
 import ServicoDeProdutos from '../servicos/ServicoDeProdutos';
 import AuthContext from '../context/AuthContext'
 import { makeStyles, Typography, Button, Dialog, DialogContent, DialogTitle, TextField, DialogActions} from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import ServicoDeMarcas from '../servicos/ServicoDeMarcas';
 
 
 export default function PaginadoProduto() {
@@ -19,8 +25,11 @@ export default function PaginadoProduto() {
     const [quantidade, setQuantidade] = useState('')
     const [uid, setUid] = useState('')
     const [produtos, setProdutos] = useState([])
+    const [marcas, setMarcas] = useState([])
+    
 
     const servicoDeProdutos = new ServicoDeProdutos()
+    const servicoDeMarcas = new ServicoDeMarcas()
 
     
 
@@ -30,6 +39,11 @@ export default function PaginadoProduto() {
           setProdutos(res.produtos)
 
         })
+        servicoDeMarcas.getMarcas().then((res)=>{
+            console.log(res.marcas)
+            setMarcas(res.marcas)
+        })
+        
     },[])
 
     const handleClose = ()=> {
@@ -50,7 +64,7 @@ export default function PaginadoProduto() {
 
     const handleSave = () => {
         if(editando){
-             servicoDeProdutos.putProduto({name, marca, quantidade} , uid)
+             servicoDeProdutos.putProduto({name, marca_uid: marca, quantidade} , uid)
              .then((res)=> {
                  context.setSuccessMessage('Produto Salvo com sucesso!')
                  context.setIsSuccessOpen(true)
@@ -60,9 +74,9 @@ export default function PaginadoProduto() {
              })
              setOpen(false)
         }else {
-            servicoDeProdutos.postProduto({name, marca, quantidade})
+            servicoDeProdutos.postProduto({name, marca_uid: marca, quantidade})
              .then((res)=> {
-                 console.log(res)
+                //  produtos.push(res.data.produto)
                  context.setSuccessMessage('Produto criado com sucesso!')
                  context.setIsSuccessOpen(true)
              }).catch((err)=> {
@@ -89,9 +103,6 @@ export default function PaginadoProduto() {
             
         }else {
             setTitle('Criar Produto')
-
-
-
             setEditando(false)
         }
     }
@@ -117,15 +128,19 @@ export default function PaginadoProduto() {
                             type="text"
                             fullWidth
                         />
-                        <TextField
-                            margin="dense"
-                            id="marca"
-                            label="Marca"
-                            type="text"
-                            value={marca}
-                            onChange={(event)=> handleMarcaChange(event.target.value)}
-                            fullWidth
-                        />
+                         <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-label">Marca</InputLabel>
+                                <Select
+                                    labelId="marcas-label"
+                                    id="marcas-select"
+                                    value={marca}
+                                    onChange={(event)=> handleMarcaChange(event.target.value)}
+                                >
+                            {marcas.map((marca)=> (<MenuItem value={marca.uid}>{marca.name}</MenuItem>))} 
+                            
+                            </Select>
+                        </FormControl>
+                       
                         <TextField
                             margin="dense"
                             id="quantidade"
@@ -171,6 +186,13 @@ const useStyles = makeStyles({
         textAlign: 'left',
         paddingLeft: '30px',
         paddingTop:'20px'
-    }
+    },
+    formControl: {
+        margin: '8px',
+        width: '100%'
+      },
+      selectEmpty: {
+        marginTop: '16px',
+      },
   });
 

@@ -7,6 +7,7 @@ import AuthContext from './context/AuthContext';
 import { Route, Switch } from 'react-router-dom';
 import PaginaDeUsuarios from './components/PaginaDeUsuarios';
 import PaginadoProduto from './components/PaginadoProduto';
+import PaginaDeMarcas from './components/PaginaDeMarcas';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -94,6 +95,7 @@ function App() {
                 <Route path="/" component={PaginaInicial} exact />
                 <Route path="/usuarios" component={PaginaDeUsuarios}/>
                 <Route path="/produtos" component={PaginadoProduto}/>
+                <Route path="/marcas" component={PaginaDeMarcas}/>
                 <Route component={Error} />
             </Switch>
     </AuthContext.Provider>
