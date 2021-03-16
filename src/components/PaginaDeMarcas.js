@@ -39,7 +39,7 @@ export default function PaginaDeMarcas() {
 
     const handleSave = () => {
         if(editando){
-            ServicoDeMarcas.putMarca({name})
+            ServicoDeMarcas.postMarca({name})
              .then((res)=> {
                  context.setSuccessMessage('Marca salva com Sucesso!')
                  context.setIsSuccessOpen(true)
